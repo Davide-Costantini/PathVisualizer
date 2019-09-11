@@ -4,7 +4,7 @@ public class Vertex {
 
 	private boolean wasExplored;
 
-	public Vertex(Vertex thisVertex) {
+	public Vertex() {
 		this.wasExplored = false;
 	}
 

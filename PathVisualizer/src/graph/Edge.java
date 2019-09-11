@@ -4,9 +4,6 @@ import java.util.ArrayList;
 
 public class Edge {
 
-	// Pointer to itself
-	private Edge thisEdge;
-
 	// Connected vertices
 	private Vertex vertex1;
 	private Vertex vertex2;
@@ -14,9 +11,7 @@ public class Edge {
 	// Weight of the edge
 	private int weight;
 
-	public Edge(Edge thisEdge, int weight) {
-
-		this.thisEdge = thisEdge;
+	public Edge(int weight) {
 
 		if (weight >= 0) {
 			this.weight = weight;
@@ -39,10 +34,6 @@ public class Edge {
 			return connectedVertices;
 		}
 		throw new VerticesNotDefinedException();
-	}
-
-	public Edge element() {
-		return thisEdge;
 	}
 
 }

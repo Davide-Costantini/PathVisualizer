@@ -61,19 +61,18 @@ public class Graph {
 
 	// Replaces vertex v with vertex o
 	public void replace(Vertex v, Vertex o) {
-		
+
 		ArrayList<Edge> incidentEdges = incidentEdges(v);
 		for (Edge edge : incidentEdges) {
 			ArrayList<Vertex> vertices = edge.getConnectedVertices();
-			if(vertices.get(0).equals(v)) {
+			if (vertices.get(0).equals(v)) {
 				edge.setConnectedVertices(o, vertices.get(1));
-			}
-			else if(vertices.get(1).equals(v)) {
+			} else if (vertices.get(1).equals(v)) {
 				edge.setConnectedVertices(o, vertices.get(0));
-			}
-			else throw new CouldNotReplaceVertexException();
+			} else
+				throw new CouldNotReplaceVertexException();
 		}
-		
+
 	}
 
 	// Replaces edge e with edge o
@@ -89,23 +88,31 @@ public class Graph {
 	}
 
 	public Vertex insertVertex(Vertex o) {
+		numVertices++;
 		vertices.add(o);
 		return o;
 	}
 
 	public Vertex removeVertex(Vertex v) {
-		vertices.remove(v);
+		boolean wasRemoved = vertices.remove(v);
+		if (wasRemoved) {
+			numVertices--;
+		}
 		return v;
 	}
 
 	public Edge insertEdge(Vertex u, Vertex v, Edge o) {
+		numEdges++;
 		o.setConnectedVertices(u, v);
 		edges.add(o);
 		return o;
 	}
 
 	public Edge removeEdge(Edge e) {
-		edges.remove(e);
+		boolean wasRemoved = edges.remove(e);
+		if (wasRemoved) {
+			numEdges--;
+		}
 		return e;
 	}
 
