@@ -2,11 +2,11 @@ package graph;
 
 import java.util.ArrayList;
 
-public class Edge {
+public class Edge<T> {
 
 	// Connected vertices
-	private Vertex vertex1;
-	private Vertex vertex2;
+	private Vertex<T> vertex1;
+	private Vertex<T> vertex2;
 
 	// Weight of the edge
 	private int weight;
@@ -21,14 +21,14 @@ public class Edge {
 
 	}
 
-	public void setConnectedVertices(Vertex v1, Vertex v2) {
+	public void setConnectedVertices(Vertex<T> v1, Vertex<T> v2) {
 		this.vertex1 = v1;
 		this.vertex2 = v2;
 	}
 
-	public ArrayList<Vertex> getConnectedVertices() {
+	public ArrayList<Vertex<T>> getConnectedVertices() {
 		if (vertex1 != null && vertex2 != null) {
-			ArrayList<Vertex> connectedVertices = new ArrayList<Vertex>();
+			ArrayList<Vertex<T>> connectedVertices = new ArrayList<Vertex<T>>();
 			connectedVertices.add(this.vertex1);
 			connectedVertices.add(this.vertex2);
 			return connectedVertices;

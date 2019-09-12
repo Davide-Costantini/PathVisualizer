@@ -2,19 +2,19 @@ package graph;
 
 import java.util.ArrayList;
 
-public class Graph {
+public class Graph<T> {
 
 	private int numEdges;
 	private int numVertices;
-	ArrayList<Edge> edges;
-	ArrayList<Vertex> vertices;
+	ArrayList<Edge<T>> edges;
+	ArrayList<Vertex<T>> vertices;
 
 	public Graph() {
 
 		numEdges = 0;
 		numVertices = 0;
-		edges = new ArrayList<Edge>();
-		vertices = new ArrayList<Vertex>();
+		edges = new ArrayList<Edge<T>>();
+		vertices = new ArrayList<Vertex<T>>();
 
 	}
 
@@ -26,20 +26,20 @@ public class Graph {
 		return numVertices;
 	}
 
-	public ArrayList<Edge> edges() {
+	public ArrayList<Edge<T>> edges() {
 		return edges;
 	}
 
-	public ArrayList<Vertex> vertices() {
+	public ArrayList<Vertex<T>> vertices() {
 		return vertices;
 	}
 
-	public ArrayList<Edge> incidentEdges(Vertex v) {
+	public ArrayList<Edge<T>> incidentEdges(Vertex<T> v) {
 
-		ArrayList<Edge> incidentEdges = new ArrayList<Edge>();
+		ArrayList<Edge<T>> incidentEdges = new ArrayList<Edge<T>>();
 
-		for (Edge edge : edges) {
-			ArrayList<Vertex> vertices = edge.getConnectedVertices();
+		for (Edge<T> edge : edges) {
+			ArrayList<Vertex<T>> vertices = edge.getConnectedVertices();
 			if (vertices.get(0).equals(v) || vertices.get(1).equals(v)) {
 				incidentEdges.add(edge);
 			}
@@ -47,11 +47,11 @@ public class Graph {
 		return incidentEdges;
 	}
 
-	public boolean areAdjacent(Vertex u, Vertex v) {
+	public boolean areAdjacent(Vertex<T> u, Vertex<T> v) {
 
-		ArrayList<Edge> incidentEdges = incidentEdges(u);
-		for (Edge edge : incidentEdges) {
-			ArrayList<Vertex> vertices = edge.getConnectedVertices();
+		ArrayList<Edge<T>> incidentEdges = incidentEdges(u);
+		for (Edge<T> edge : incidentEdges) {
+			ArrayList<Vertex<T>> vertices = edge.getConnectedVertices();
 			if (vertices.get(0).equals(v) || vertices.get(1).equals(v)) {
 				return true;
 			}
@@ -60,11 +60,11 @@ public class Graph {
 	}
 
 	// Replaces vertex v with vertex o
-	public void replace(Vertex v, Vertex o) {
+	public void replace(Vertex<T> v, Vertex<T> o) {
 
-		ArrayList<Edge> incidentEdges = incidentEdges(v);
-		for (Edge edge : incidentEdges) {
-			ArrayList<Vertex> vertices = edge.getConnectedVertices();
+		ArrayList<Edge<T>> incidentEdges = incidentEdges(v);
+		for (Edge<T> edge : incidentEdges) {
+			ArrayList<Vertex<T>> vertices = edge.getConnectedVertices();
 			if (vertices.get(0).equals(v)) {
 				edge.setConnectedVertices(o, vertices.get(1));
 			} else if (vertices.get(1).equals(v)) {
@@ -75,10 +75,22 @@ public class Graph {
 
 	}
 
-	// Replaces edge e with edge o
-	public void replace(Edge e, Edge o) {
+	// Return the vertex on the other side of the edge
+	public Vertex<T> opposite(Vertex<T> v, Edge<T> e) {
 
-		ArrayList<Vertex> vertices = e.getConnectedVertices();
+		ArrayList<Vertex<T>> vertices = e.getConnectedVertices();
+		if (vertices.get(0).equals(v)) {
+			return vertices.get(1);
+		} else if (vertices.get(1).equals(v)) {
+			return vertices.get(0);
+		}
+		throw new VertexAndEdgeNotConnectedException();
+	}
+
+	// Replaces edge e with edge o
+	public void replace(Edge<T> e, Edge<T> o) {
+
+		ArrayList<Vertex<T>> vertices = e.getConnectedVertices();
 
 		// Ensures that the connections do not get altered
 		o.setConnectedVertices(vertices.get(0), vertices.get(1));
@@ -87,13 +99,13 @@ public class Graph {
 
 	}
 
-	public Vertex insertVertex(Vertex o) {
+	public Vertex<T> insertVertex(Vertex<T> o) {
 		numVertices++;
 		vertices.add(o);
 		return o;
 	}
 
-	public Vertex removeVertex(Vertex v) {
+	public Vertex<T> removeVertex(Vertex<T> v) {
 		boolean wasRemoved = vertices.remove(v);
 		if (wasRemoved) {
 			numVertices--;
@@ -101,14 +113,19 @@ public class Graph {
 		return v;
 	}
 
-	public Edge insertEdge(Vertex u, Vertex v, Edge o) {
+	// Insert a new edge between vertices u and v, does nothing and return null
+	// if the two vertices were already connected
+	public Edge<T> insertEdge(Vertex<T> u, Vertex<T> v, Edge<T> o) {
 		numEdges++;
-		o.setConnectedVertices(u, v);
-		edges.add(o);
-		return o;
+		if (!areAdjacent(u, v)) {
+			o.setConnectedVertices(u, v);
+			edges.add(o);
+			return o;
+		}
+		return null;
 	}
 
-	public Edge removeEdge(Edge e) {
+	public Edge<T> removeEdge(Edge<T> e) {
 		boolean wasRemoved = edges.remove(e);
 		if (wasRemoved) {
 			numEdges--;
@@ -116,6 +133,9 @@ public class Graph {
 		return e;
 	}
 
+}
+
+class VertexAndEdgeNotConnectedException extends RuntimeException {
 }
 
 class CouldNotReplaceVertexException extends RuntimeException {

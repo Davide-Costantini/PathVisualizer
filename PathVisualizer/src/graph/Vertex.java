@@ -1,11 +1,13 @@
 package graph;
 
-public class Vertex {
+public class Vertex<T> {
 
 	private boolean wasExplored;
+	private T data;
 
-	public Vertex() {
+	public Vertex(T data) {
 		this.wasExplored = false;
+		this.data = data;
 	}
 
 	public boolean wasExplored() {
@@ -20,6 +22,14 @@ public class Vertex {
 	public boolean setUnexplored() {
 		this.wasExplored = false;
 		return this.wasExplored;
+	}
+	
+	public T element() {
+		return data;
+	}
+	
+	public String toString() {
+		return data.toString();
 	}
 
 }
