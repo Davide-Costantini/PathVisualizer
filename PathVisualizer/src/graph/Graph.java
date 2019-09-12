@@ -105,8 +105,13 @@ public class Graph<T> {
 		return o;
 	}
 
+	//Removes vertex and all its connected edges
 	public Vertex<T> removeVertex(Vertex<T> v) {
 		boolean wasRemoved = vertices.remove(v);
+		ArrayList<Edge<T>> edges = incidentEdges(v);
+		for (Edge<T> edge : edges) {
+			removeEdge(edge);
+		}
 		if (wasRemoved) {
 			numVertices--;
 		}
@@ -136,7 +141,9 @@ public class Graph<T> {
 }
 
 class VertexAndEdgeNotConnectedException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
 }
 
 class CouldNotReplaceVertexException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
 }

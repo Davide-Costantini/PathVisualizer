@@ -1,39 +1,28 @@
 import java.util.ArrayList;
-
-import graph.Edge;
 import graph.Graph;
-import graph.Vertex;
+import graphics.Color;
+import graphics.Rectangle;
+import graphics.Text;
 
 public class Visualizer {
 
-	public static void main(String[] args) {
-	
-		int numVertices = 4;
-		
-		Graph<String> graph = new Graph<String>();
-		
-		for(int i = 0; i < numVertices; i++) {
-			graph.insertVertex(new Vertex<String>("Vertex" + i));
-		}
-		
-		ArrayList<Vertex<String>> vertices = graph.vertices();
-		
-		Edge<String> e1 = new Edge<String>(1);
-		Edge<String> e2 = new Edge<String>(1);
-		Edge<String> e3 = new Edge<String>(1);
-		Edge<String> e4 = new Edge<String>(1);
-		Edge<String> e5 = new Edge<String>(1);
-		Edge<String> e6 = new Edge<String>(1);
-		
-		graph.insertEdge(vertices.get(0), vertices.get(1), e1);
-		graph.insertEdge(vertices.get(1), vertices.get(2), e2);
-		graph.insertEdge(vertices.get(0), vertices.get(2), e3);
-		graph.insertEdge(vertices.get(2), vertices.get(3), e4);
-		graph.insertEdge(vertices.get(1), vertices.get(3), e5);
-		graph.insertEdge(vertices.get(0), vertices.get(3), e6);
-		
-		
-		System.out.println(graph.opposite(vertices.get(1), e5).element());
+	public static void main(String[] args) throws InterruptedException {
+
+		int width = 50; // Number of rectangles per row
+		int height = 25; // Number of rectangles per column
+		int side = 20; // Side length of each rectangle
+		int offset = 2; // Space between each rectangle
+		int heightUpperBlankSpace = 55;
+
+		Text menu = new Text(0, 0, "Here goes the menu");
+		menu.setColor(Color.BLUE);
+		menu.draw();
+
+		ArrayList<Rectangle> board = Utilities.setUpBoard(width, height, side, offset, heightUpperBlankSpace);
+		Graph<String> graph = Utilities.setUpGraph(width, height);
+		Utilities.removeVertexAndColor(board, graph, width, height);
+		Pathfinding.depthFirstSearch(graph, graph.vertices().get(490), board);
+
 	}
-	
+
 }
