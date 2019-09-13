@@ -90,7 +90,8 @@ public class Utilities {
 		return sequence;
 	}
 
-	public static void removeVertexAndColor(ArrayList<Rectangle> board, Graph<String> graph, int width, int height) {
+	public static ArrayList<Integer> removeVertexAndColor(ArrayList<Rectangle> board, Graph<String> graph, int width,
+			int height) {
 
 		ArrayList<Integer> verticesToRemove = Utilities.nonRepeatingSequence(width * height, width * height / 5);
 		for (int i = verticesToRemove.size() - 1; i >= 0; i--) {
@@ -99,6 +100,31 @@ public class Utilities {
 			board.get(indexToRemove).fill();
 			graph.removeVertex(graph.vertices().get(indexToRemove));
 
+		}
+		return verticesToRemove;
+	}
+
+	public static void resetBoard(ArrayList<Rectangle> board, ArrayList<Integer> verticesRemoved, Graph<String> graph) {
+
+		for (int i = 0; i < board.size(); i++) {
+
+			if (verticesRemoved.contains(i)) {
+				board.get(i).setColor(Color.BLUE);
+				board.get(i).fill();
+			} else {
+				board.get(i).setColor(Color.WHITE);
+				board.get(i).fill();
+				board.get(i).setColor(Color.BLACK);
+				board.get(i).draw();
+			}
+		}
+
+		for (Vertex<String> vertex : graph.vertices()) {
+			vertex.setUnexplored();
+		}
+
+		for (Edge<String> edge : graph.edges()) {
+			edge.setUnexplored();
 		}
 
 	}

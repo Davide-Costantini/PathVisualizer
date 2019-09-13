@@ -20,8 +20,11 @@ public class Visualizer {
 
 		ArrayList<Rectangle> board = Utilities.setUpBoard(width, height, side, offset, heightUpperBlankSpace);
 		Graph<String> graph = Utilities.setUpGraph(width, height);
-		Utilities.removeVertexAndColor(board, graph, width, height);
+		ArrayList<Integer> verticesRemoved = Utilities.removeVertexAndColor(board, graph, width, height);
+
 		Pathfinding.depthFirstSearch(graph, graph.vertices().get(490), board);
+		Utilities.resetBoard(board, verticesRemoved, graph);
+		Pathfinding.breadthFirstSearch(graph, graph.vertices().get(490), board);
 
 	}
 
