@@ -96,7 +96,7 @@ public class Utilities {
 		ArrayList<Integer> verticesToRemove = Utilities.nonRepeatingSequence(width * height, width * height / 5);
 		for (int i = verticesToRemove.size() - 1; i >= 0; i--) {
 			int indexToRemove = verticesToRemove.get(i);
-			board.get(indexToRemove).setColor(Color.BLUE);
+			board.get(indexToRemove).setColor(Color.BLACK);
 			board.get(indexToRemove).fill();
 			graph.removeVertex(graph.vertices().get(indexToRemove));
 
@@ -109,7 +109,7 @@ public class Utilities {
 		for (int i = 0; i < board.size(); i++) {
 
 			if (verticesRemoved.contains(i)) {
-				board.get(i).setColor(Color.BLUE);
+				board.get(i).setColor(Color.BLACK);
 				board.get(i).fill();
 			} else {
 				board.get(i).setColor(Color.WHITE);

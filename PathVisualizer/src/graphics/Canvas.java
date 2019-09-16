@@ -21,12 +21,16 @@ public class Canvas
 
     private ArrayList<Shape> shapes = new ArrayList<Shape>();
     private BufferedImage background;
-    private JFrame frame;
+    private static JFrame frame;
     private CanvasComponent component;
 
     private static final int MIN_SIZE = 100;
     private static final int MARGIN = 10;
     private static final int LOCATION_OFFSET = 120;
+    
+    public static JFrame getFrame() {
+		return frame;
+	}
 
     class CanvasComponent extends JComponent
     {
@@ -191,3 +195,6 @@ public class Canvas
     	g.dispose();    	
     }
 }
+
+
+
